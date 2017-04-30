@@ -13,6 +13,7 @@ import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 import org.springframework.web.context.WebApplicationContext;
 
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
 
@@ -84,6 +85,20 @@ public class HelloControllerTest {
     @Test
     public void shouldHandleException_WithCatchAllExceptionHandler_Again() throws Exception {
         mockMvc.perform(get("/hello7"))
+                .andDo(print())
+                .andExpect(status().isOk())
+                .andExpect(view().name("global/error"))
+                .andExpect(model().attributeExists("exception", "url"));
+    }
+
+    /**
+     * If @ControllerAdvice extends ResponseEntityExceptionResovler, exceptions that are
+     * being handled by Spring, are not overridden.
+     * But right now, they are overridden.
+     */
+    @Test
+    public void shouldOverride_HttpRequestMethodNotSupportedException_FromDefaultHandlerExceptionResolver() throws Exception {
+        mockMvc.perform(post("/hello6"))
                 .andDo(print())
                 .andExpect(status().isOk())
                 .andExpect(view().name("global/error"))

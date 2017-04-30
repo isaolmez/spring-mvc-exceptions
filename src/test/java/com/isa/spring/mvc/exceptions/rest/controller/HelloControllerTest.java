@@ -13,6 +13,7 @@ import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 import org.springframework.web.context.WebApplicationContext;
 
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
 
@@ -85,5 +86,12 @@ public class HelloControllerTest {
                 .andDo(print())
                 .andExpect(status().isBadRequest())
                 .andExpect(content().string("Will be handled by the catch all @ExceptionHandler"));
+    }
+
+    @Test
+    public void shouldNotOverride_HttpRequestMethodNotSupportedException_FromDefaultHandlerExceptionResolver() throws Exception {
+        mockMvc.perform(post("/hello6"))
+                .andDo(print())
+                .andExpect(status().isMethodNotAllowed());
     }
 }

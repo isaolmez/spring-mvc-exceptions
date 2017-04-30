@@ -51,6 +51,10 @@ public class HelloController {
         throw new RuntimeException("Will not be handled");
     }
 
+    /**
+     * @ResponseStatus on @RequestMapping method does not have any effect.
+     * It does not map exceptions thrown from this method to the specified status code.
+     */
     @ResponseStatus(code = HttpStatus.NOT_ACCEPTABLE)
     @GetMapping("/hello7")
     public void throwAnotherRuntimeException() {

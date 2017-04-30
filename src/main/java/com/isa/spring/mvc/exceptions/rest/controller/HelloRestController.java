@@ -43,6 +43,10 @@ public class HelloRestController {
         throw new RuntimeException("Will be handled by the catch all @ExceptionHandler");
     }
 
+    /**
+     * @ResponseStatus on @RequestMapping method does not have any effect.
+     * It does not map exceptions thrown from this method to the specified status code.
+     */
     @ResponseStatus(code = HttpStatus.NOT_ACCEPTABLE)
     @GetMapping("/hello7")
     public void throwAnotherRuntimeException() {
