@@ -92,11 +92,11 @@ public class HelloController {
      * Model cannot be a parameter in the method signature. Construct a new one
      */
     @ExceptionHandler(NullPointerException.class)
-    public ModelAndView handleNullPointerException(NullPointerException e, HttpServletRequest servletRequest) {
+    public ModelAndView handleNullPointerException(NullPointerException exception, HttpServletRequest request) {
         ModelAndView modelAndView = new ModelAndView();
         modelAndView.addObject("message", "Handled by @ExceptionHandler and forwarded to view");
-        modelAndView.addObject("exception", e);
-        modelAndView.addObject("url", servletRequest.getRequestURL());
+        modelAndView.addObject("exception", exception);
+        modelAndView.addObject("url", request.getRequestURL());
         modelAndView.setViewName("perController/errorWithModel");
         return modelAndView;
     }

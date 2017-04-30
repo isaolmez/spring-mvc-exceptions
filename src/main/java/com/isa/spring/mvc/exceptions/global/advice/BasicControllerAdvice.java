@@ -44,11 +44,11 @@ public class BasicControllerAdvice {
      * Model cannot be a parameter in the method signature. Construct a new one
      */
     @ExceptionHandler(NullPointerException.class)
-    public ModelAndView handleNullPointerException(NullPointerException e, HttpServletRequest servletRequest) {
+    public ModelAndView handleNullPointerException(NullPointerException exception, HttpServletRequest request) {
         ModelAndView modelAndView = new ModelAndView();
         modelAndView.addObject("message", "Handled by @ExceptionHandler and forwarded to view");
-        modelAndView.addObject("exception", e);
-        modelAndView.addObject("url", servletRequest.getRequestURL());
+        modelAndView.addObject("exception", exception);
+        modelAndView.addObject("url", request.getRequestURL());
         modelAndView.setViewName("global/errorWithModel");
         return modelAndView;
     }
@@ -72,16 +72,16 @@ public class BasicControllerAdvice {
      * - Response status code is 200 (OK)
      */
     @ExceptionHandler(Exception.class)
-    public ModelAndView defaultErrorHandler(HttpServletRequest req, Exception e) throws Exception {
+    public ModelAndView defaultErrorHandler(HttpServletRequest request, Exception exception) throws Exception {
         // If the exception is annotated with @ResponseStatus rethrow it and let
         // the framework handle it
-        if (AnnotationUtils.findAnnotation(e.getClass(), ResponseStatus.class) != null)
-            throw e;
+        if (AnnotationUtils.findAnnotation(exception.getClass(), ResponseStatus.class) != null)
+            throw exception;
 
         // Otherwise setup and send the user to a default error-view.
         ModelAndView mav = new ModelAndView();
-        mav.addObject("exception", e);
-        mav.addObject("url", req.getRequestURL());
+        mav.addObject("exception", exception);
+        mav.addObject("url", request.getRequestURL());
         mav.setViewName("global/error");
         return mav;
     }
