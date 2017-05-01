@@ -6,6 +6,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.servlet.ModelAndView;
 
@@ -52,13 +53,22 @@ public class HelloController {
     }
 
     /**
-     * @ResponseStatus on @RequestMapping method does not have any effect.
-     * It does not map exceptions thrown from this method to the specified status code.
+     * @ResponseStatus on @RequestMapping method does not handle the exception.
+     * It would work if the exception was not thrown
      */
     @ResponseStatus(code = HttpStatus.NOT_ACCEPTABLE)
     @GetMapping("/hello7")
     public void throwAnotherRuntimeException() {
         throw new RuntimeException("Will not be handled");
+    }
+
+    /**
+     * @ResponseStatus on @RequestMapping method sets the response code.
+     */
+    @ResponseStatus(code = HttpStatus.NO_CONTENT)
+    @GetMapping("/hello8")
+    @ResponseBody
+    public void setResponseStatus() {
     }
 
     /**

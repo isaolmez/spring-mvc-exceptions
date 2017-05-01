@@ -81,4 +81,11 @@ public class HelloControllerTest {
     public void shouldNotHandleException_FromRequestMappingMethod_WithResponseStatus() throws Exception {
         mockMvc.perform(get("/hello7"));
     }
+
+    @Test
+    public void shouldSetResponseCode_FromRequestMappingMethod_WithResponseStatus() throws Exception {
+        mockMvc.perform(get("/hello8"))
+                .andDo(print())
+                .andExpect(status().isNoContent());
+    }
 }

@@ -94,4 +94,11 @@ public class HelloControllerTest {
                 .andDo(print())
                 .andExpect(status().isMethodNotAllowed());
     }
+
+    @Test
+    public void shouldSetResponseCode_FromRequestMappingMethod_WithResponseStatus() throws Exception {
+        mockMvc.perform(get("/hello8"))
+                .andDo(print())
+                .andExpect(status().isNoContent());
+    }
 }

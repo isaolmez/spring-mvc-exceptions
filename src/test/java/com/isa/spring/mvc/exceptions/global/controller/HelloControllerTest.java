@@ -104,4 +104,11 @@ public class HelloControllerTest {
                 .andExpect(view().name("global/error"))
                 .andExpect(model().attributeExists("exception", "url"));
     }
+
+    @Test
+    public void shouldSetResponseCode_FromRequestMappingMethod_WithResponseStatus() throws Exception {
+        mockMvc.perform(get("/hello8"))
+                .andDo(print())
+                .andExpect(status().isNoContent());
+    }
 }
